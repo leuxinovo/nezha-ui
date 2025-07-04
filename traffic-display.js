@@ -1,6 +1,17 @@
 const SCRIPT_VERSION = 'v20250704';
 // == 样式注入模块 ==
-
+// 注入自定义CSS隐藏特定元素
+function injectCustomCSS() {
+  const style = document.createElement('style');
+  style.textContent = `
+    /* 隐藏父级类名为 mt-4 w-full mx-auto 下的所有 div */
+    .mt-4.w-full.mx-auto > div {
+      display: none;
+    }
+  `;
+  document.head.appendChild(style);
+}
+injectCustomCSS();
 
 // == 工具函数模块 ==
 const utils = (() => {

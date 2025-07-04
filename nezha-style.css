@@ -1,0 +1,298 @@
+:root {
+  --custom-border-color: rgba(244, 244, 244, 0.382);
+  --custom-boxshadow-color: rgba(244, 244, 244, 0.5);
+  --custom-background-color: rgba(244, 244, 244, 0.618);
+  --custom-border-color-dark: rgba(11, 11, 11, 0.382);
+  --custom-boxshadow-color-dark: rgba(11, 11, 11, 0.5);
+  --custom-background-color-dark: rgba(11, 11, 11, 0.618);
+  --custom-background-image: unset;
+}
+
+/* common */
+#root {
+  background-color: unset !important;
+}
+
+img {
+  border: none;
+}
+
+/* 背景图片压暗和模糊, 开了背景图建议开启 */
+.dark .bg-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.light .bg-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.text-green-600 {
+  color: rgb(34, 197, 94);
+}
+
+.bg-green-600 {
+  background-color: rgb(34, 197, 94);
+}
+
+.vps-info {
+  border-radius: 12px;
+  padding: 12px;
+}
+
+img[alt="BackIcon"] {
+  margin-right: 12px;
+}
+
+.flex.items-center.gap-1.rounded-\[50px\].bg-stone-100.p-\[3px\].dark\:bg-stone-800 {
+  backdrop-filter: blur(2px);
+}
+
+.data-\[state\=unchecked\]\:bg-input[data-state=unchecked] {
+  background-color: unset;
+}
+
+/* Light Mode */
+.light .bg-card {
+  font-family: "Roboto", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: relative;
+  /* 设置元素为相对定位 */
+  background-color: var(--custom-background-color);
+  border: 1px solid var(--custom-border-color);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  /* 设置边框圆角为15像素 */
+  overflow: hidden;
+  /* 确保内容不会溢出容器 */
+  box-shadow: 0 4px 6px var(--custom-boxshadow-color);
+  /* 设置阴影 */
+}
+
+.light .focus\:text-accent-foreground:focus {
+  background-color: var(--custom-background-color);
+}
+
+.light .text-muted-foreground {
+  color: #000;
+}
+
+.light\:bg-stone-700:is(.light *) {
+  --tw-bg-opacity: 0.5;
+}
+
+html.light * {
+  border-color: var(--custom-border-color);
+}
+
+html.light body {
+  color: #0b0a09;
+  background: unset;
+  position: relative;
+}
+
+.border-neutral-200:is(.light *) {
+  border-color: var(--custom-border-color);
+}
+
+.fill-neutural-200\/50:is(.light *) {
+  fill: var(--custom-background-color);
+}
+
+.light .bg-stone-100 {
+  background: var(--custom-background-color);
+}
+
+.light\:text-stone-500:is(.light *) {
+  color: #0b0a09;
+}
+
+.light .bg-muted {
+  background-color: var(--custom-border-color);
+}
+
+.bg-white:is(.light *) {
+  background-color: var(--custom-boxshadow-color)
+}
+
+.light .bg-border {
+  background-color: var(--custom-border-color);
+}
+
+.light .border-input {
+  border-color: var(--custom-border-color);
+}
+
+.text-neutral-600\/50:is(.light *) {
+  color: #666;
+}
+
+.text-stone-400:is(.light *) {
+  color: #000;
+}
+
+.light div#radix-\:r4\: {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.light .max-w-5xl.gap-4>div:first-child {
+  background-color: var(--custom-background-color);
+  backdrop-filter: blur(2px);
+  border: 1px solid var(--custom-boxshadow-color);
+  box-shadow: 0 4px 6px var(--custom-boxshadow-color);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.light .\[\&_\.recharts-cartesian-axis-tick_text\]\:fill-muted-foreground .recharts-cartesian-axis-tick text {
+  fill: #000;
+}
+
+.light .data-\[state\=checked\]\:bg-primary[data-state=checked] {
+  background-color: var(--custom-background-color);
+}
+
+.bg-neutral-100:is(.light *) {
+  background-color: var(--custom-background-color);
+}
+
+.light .bg-secondary {
+  background-color: unset;
+}
+
+.light .bg-popover {
+  background-color: var(--custom-boxshadow-color);
+}
+
+.light .font-medium.opacity-40 {
+  opacity: unset;
+}
+
+.light .font-medium.opacity-50 {
+  opacity: unset;
+}
+
+/* Dark Mode */
+.dark .bg-card {
+  font-family: "Roboto", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: relative;
+  /* 设置元素为相对定位 */
+  background-color: var(--custom-background-color-dark);
+  border: 1px solid var(--custom-border-color-dark);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  /* 设置边框圆角为15像素 */
+  overflow: hidden;
+  /* 确保内容不会溢出容器 */
+  box-shadow: 0 4px 6px var(--custom-boxshadow-color-dark);
+  /* 设置阴影 */
+}
+
+.dark .focus\:text-accent-foreground:focus {
+  background-color: var(--custom-background-color-dark);
+}
+
+.dark .text-muted-foreground {
+  color: #fff;
+}
+
+.dark\:bg-stone-700:is(.dark *) {
+  --tw-bg-opacity: 0.5;
+}
+
+html.dark * {
+  border-color: var(--custom-border-color-dark);
+}
+
+html.dark body {
+  color: #f4f5f6;
+  background: unset;
+  position: relative;
+}
+
+.dark\:border-neutral-800:is(.dark *) {
+  border-color: var(--custom-border-color-dark);
+}
+
+.dark\:fill-neutral-800:is(.dark *) {
+  fill: var(--custom-background-color-dark);
+}
+
+.dark .bg-stone-800 {
+  background: var(--custom-background-color-dark);
+}
+
+.dark\:text-stone-500:is(.dark *) {
+  color: #f4f5f6;
+}
+
+.dark .bg-muted {
+  background-color: var(--custom-border-color-dark);
+}
+
+.dark\:bg-black:is(.dark *) {
+  background-color: var(--custom-boxshadow-color-dark)
+}
+
+.dark .bg-border {
+  background-color: var(--custom-border-color-dark);
+}
+
+.dark .border-input {
+  border-color: var(--custom-border-color-dark);
+}
+
+.dark\:text-neutral-300\/50:is(.dark *) {
+  color: #999;
+}
+
+.dark\:text-stone-400:is(.dark *) {
+  color: #fff;
+}
+
+.dark div#radix-\:r4\: {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.dark .max-w-5xl.gap-4>div:first-child {
+  background-color: var(--custom-background-color-dark);
+  backdrop-filter: blur(2px);
+  border: 1px solid var(--custom-boxshadow-color-dark);
+  box-shadow: 0 4px 6px var(--custom-boxshadow-color-dark);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.dark .\[\&_\.recharts-cartesian-axis-tick_text\]\:fill-muted-foreground .recharts-cartesian-axis-tick text {
+  fill: #fff;
+}
+
+.dark .data-\[state\=checked\]\:bg-primary[data-state=checked] {
+  background-color: var(--custom-background-color-dark);
+}
+
+.bg-neutral-800:is(.dark *) {
+  background-color: var(--custom-background-color-dark);
+}
+
+.dark .bg-secondary {
+  background-color: unset;
+}
+
+.dark .bg-popover {
+  background-color: var(--custom-boxshadow-color-dark);
+}
+
+.dark .font-medium.opacity-40 {
+  opacity: unset;
+}
+
+.dark .font-medium.opacity-50 {
+  opacity: unset;
+}

@@ -1,6 +1,6 @@
 #### 美化字体
 ```
-<script src="https://cdn.jsdelivr.net/gh/leuxinovo/nezha-ui@main/font-inject.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/leuxinovo/nezha-ui@main/font-inject.css"></script>
 ```
 #### 哪吒周期性流量进度条显示
 ##### 屏蔽服务中流量周期版

@@ -1,0 +1,16 @@
+/* 字体设置 font.css */
+
+/* 通用字体设置 */
+body, button, input, textarea {
+  font-family: "Roboto", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Light 模式下卡片使用字体 */
+.light .bg-card {
+  font-family: "Roboto", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Dark 模式下卡片使用字体 */
+.dark .bg-card {
+  font-family: "Roboto", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

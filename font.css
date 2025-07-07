@@ -1,0 +1,15 @@
+/* 自定义字体引入 */
+@font-face {
+    font-family: 'Harmony Hans';
+    src: url(https://cdn.amzayo.top/static/fonts/HarmonyOSHans-Medium.woff2) format('woff2');
+}
+
+/* 全局字体应用 */
+* {
+    font-family: 'Harmony Hans';
+}
+
+/* 平滑过渡（可选保留） */
+*:not(.content) {
+    transition: all .2s;
+}

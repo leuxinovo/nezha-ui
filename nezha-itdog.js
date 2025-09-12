@@ -2,7 +2,7 @@
 (function(){
     'use strict';
 
-if (location.pathname !== '/dashboard') return;
+if (!location.href.includes('/dashboard')) return;
 
 
     // 样式

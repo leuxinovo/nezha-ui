@@ -2,8 +2,7 @@
 (function(){
     'use strict';
 
-if (!location.href.includes('/dashboard')) return;
-
+    if (!location.href.includes('/dashboard')) return;
 
     // 样式
     const style = document.createElement('style');

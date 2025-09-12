@@ -84,7 +84,7 @@
 
         if (hasPort) {
             // 有端口 → TCPing（IPv4 / IPv6 分别）
-            a.textContent = isIPv4 ? 'TCPingv4' : 'TCPingv6';
+            a.textContent = isIPv4 ? 'Tcpingv4' : 'Tcingv6';
             a.href = isIPv4
                 ? `https://www.itdog.cn/tcping/${token}`
                 : `https://www.itdog.cn/tcping_ipv6/${token}`;

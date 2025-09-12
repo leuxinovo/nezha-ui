@@ -1,10 +1,10 @@
-// == Nezha Dashboard IP Ping 按钮（稳定版，按钮在 IP 上方，并排显示）==
+// == Nezha Dashboard IP Ping/TCPing 按钮（修复 IPv4:port 被误判为 IPv6）==
 (function(){
     'use strict';
 
     if (!location.href.includes('/dashboard')) return;
 
-    // 样式
+    // ---------- 样式 ----------
     const style = document.createElement('style');
     style.textContent = `
         .nezha-ping-btn {
@@ -41,59 +41,108 @@
     `;
     document.head.appendChild(style);
 
-    function createPingButton(ip, isIPv4){
+    // ---------- 工具：解析单元格里的 IP token ----------
+    // 支持的 token 形式示例：
+    //  - IPv4: 1.2.3.4 或 1.2.3.4:80
+    //  - IPv6: 2001:db8::1
+    //  - IPv6 带端口（推荐带方括号）: [2001:db8::1]:443
+    function parseIPs(text){
+        if(!text) return {v4:[], v6:[]};
+        // 常见分隔符：空格 / , | ;
+        const tokens = text.split(/[\s,\/|;]+/).map(t => t.trim()).filter(Boolean);
+        const v4 = [], v6 = [];
+
+        // IPv4 (支持可选 :port)
+        const reV4 = /^(?:\d{1,3}\.){3}\d{1,3}(?::\d+)?$/;
+
+        // 带方括号的 IPv6 形式（可选端口）: [::1] 或 [::1]:80
+        const reV6Bracket = /^\[[0-9a-fA-F:]+\](?::\d+)?$/;
+
+        for(let t of tokens){
+            if (reV4.test(t)) { // 先判断 IPv4（含端口）
+                v4.push(t);
+                continue;
+            }
+            if (reV6Bracket.test(t)) { // 带方括号的 IPv6（含端口）
+                v6.push(t);
+                continue;
+            }
+            // 纯 IPv6（包含 ':' 且不包含 '.'，避免把 IPv4:port 误判）
+            if (t.includes(':') && !t.includes('.')) {
+                v6.push(t);
+                continue;
+            }
+            // 其它（忽略）
+        }
+        return {v4, v6};
+    }
+
+    // ---------- 创建按钮（当 hasPort 为 true 时使用 tcping） ----------
+    function createButton(token, isIPv4, hasPort){
         const a = document.createElement('a');
-        a.className='nezha-ping-btn';
-        a.textContent = isIPv4 ? 'Pingv4' : 'Pingv6';
-        a.href = isIPv4
-            ? `https://www.itdog.cn/ping/${ip}`
-            : `https://www.itdog.cn/ping_ipv6/${ip}`;
-        a.target='_blank';
-        a.rel='noopener noreferrer';
+        a.className = 'nezha-ping-btn';
+
+        if (hasPort) {
+            // 有端口 → TCPing（IPv4 / IPv6 分别）
+            a.textContent = isIPv4 ? 'Tcpingv4' : 'Tcpingv6';
+            a.href = isIPv4
+                ? `https://www.itdog.cn/tcping/${token}`
+                : `https://www.itdog.cn/tcping_ipv6/${token}`;
+        } else {
+            // 无端口 → 普通 Ping
+            a.textContent = isIPv4 ? 'Pingv4' : 'Pingv6';
+            a.href = isIPv4
+                ? `https://www.itdog.cn/ping/${token}`
+                : `https://www.itdog.cn/ping_ipv6/${token}`;
+        }
+
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
         return a;
     }
 
-    function appendPingButtons(cell){
+    // ---------- 在单元格插入按钮 ----------
+    function appendButtons(cell){
         if(!cell) return;
-        if(cell.dataset.nzPingProcessed==='1') return;
+        if(cell.dataset.nzPingProcessed === '1') return;
 
         const text = cell.textContent.trim();
         if(!text) return;
 
-        // 拆分 IPv4/IPv6
-        const parts = text.split('/');
-        const v4 = parts[0] && /^\d{1,3}(\.\d{1,3}){3}$/.test(parts[0]) ? parts[0] : null;
-        const v6 = parts[1] && parts[1].includes(':') ? parts[1] : (text.includes(':') ? text : null);
+        const {v4, v6} = parseIPs(text);
+        if (v4.length === 0 && v6.length === 0) return;
 
         const wrap = document.createElement('div');
         wrap.className = 'nezha-ping-wrap';
 
-        if(v4){
-            const btn4 = createPingButton(v4, true);
-            wrap.appendChild(btn4);
-        }
-        if(v6){
-            const btn6 = createPingButton(v6, false);
-            wrap.appendChild(btn6);
-        }
+        v4.forEach(tok => {
+            const hasPort = /:\d+$/.test(tok); // IPv4: 末尾 :digits
+            wrap.appendChild(createButton(tok, true, hasPort));
+        });
 
-        if(wrap.children.length > 0){
-            cell.insertAdjacentElement('afterbegin', wrap); // 保证在 IP 上方
-        }
+        v6.forEach(tok => {
+            // 仅当为带方括号并带端口的形式视为明确带端口
+            const hasPort = /^\[[0-9a-fA-F:]+\]:\d+$/.test(tok);
+            wrap.appendChild(createButton(tok, false, hasPort));
+        });
 
-        cell.dataset.nzPingProcessed='1';
+        if (wrap.children.length > 0) {
+            cell.insertAdjacentElement('afterbegin', wrap); // 插到单元格开头（IP 上方）
+            cell.dataset.nzPingProcessed = '1';
+        }
     }
 
+    // ---------- 遍历表格 ----------
     function processTable(){
-        document.querySelectorAll('tbody tr td').forEach(td => appendPingButtons(td));
+        document.querySelectorAll('tbody tr td').forEach(td => appendButtons(td));
     }
 
+    // ---------- 初始化（兼容 Vue 异步渲染） ----------
     function init(){
         processTable();
-        // MutationObserver 监听异步渲染
         const observer = new MutationObserver(processTable);
         observer.observe(document.body, {childList:true, subtree:true, characterData:true});
-        // 初始延迟兜底，保证 Vue 异步渲染的表格也处理
+        // 兜底延迟
         setTimeout(processTable, 200);
     }
 

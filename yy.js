@@ -44,7 +44,7 @@
   function createPingButton(ip, isIPv4){
     const a = document.createElement('a');
     a.className='nezha-ping-btn';
-    a.textContent = isIPv4 ? 'Ping v4' : 'Ping v6';
+    a.textContent = isIPv4 ? 'Pingv4' : 'Pingv6';
     a.href = isIPv4
       ? `https://www.itdog.cn/ping/${ip}`
       : `https://www.itdog.cn/ping_ipv6/${ip}`;
